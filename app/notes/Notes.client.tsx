@@ -10,8 +10,8 @@ import Modal from '../components/Modal/Modal';
 import NoteForm from '../components/NoteForm/NoteForm';
 import SearchBox from '../components/SearchBox/SearchBox';
 import { useDebouncedCallback } from 'use-debounce';
-import Loader from '../components/Loader/Loader';
-import ErrorMessage from '../components/ErrorMessage/ErrorMessage';
+// import Loader from '../components/Loader/Loader';
+// import ErrorMessage from '../components/ErrorMessage/ErrorMessage';
 import EmptyState from '../components/EmptyState/EmptyState';
 
 const NotesClient = () => {
@@ -24,7 +24,7 @@ const NotesClient = () => {
     setSearch(value);
   }, 500);
 
-  const { data, isLoading, isError, error } = useQuery({
+  const { data, isError, error } = useQuery({
     queryKey: ['notes', page, search],
     queryFn: () => fetchNotes({ page, perPage: 12, search }),
     placeholderData: keepPreviousData,
@@ -32,6 +32,10 @@ const NotesClient = () => {
   });
 
   const { notes = [], totalPages = 0 } = data || {};
+
+  if (isError) {
+    throw error;
+  }
 
   return (
     <div className={css.app}>
@@ -47,8 +51,8 @@ const NotesClient = () => {
           Create note +
         </button>
       </header>
-      {isLoading && <Loader />}
-      {isError && <ErrorMessage message={error.message} />}
+      {/* {isLoading && <Loader />} */}
+      {/* {isError && <ErrorMessage message={error.message} />} */}
       {data && notes.length === 0 ? <EmptyState /> : <NoteList notes={notes} />}
       {isModalOpen && (
         <Modal onClose={() => setIsModalOpen(!isModalOpen)}>
