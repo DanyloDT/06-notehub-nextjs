@@ -31,4 +31,9 @@ export const createNote = (params: Pick<Note, 'title' | 'content' | 'tag'>) => {
   return data;
 };
 
+export const fetchNoteById = async (id: string) => {
+  const { data } = await instance.get<Note>(`/notes/${id}`);
+  return data;
+};
+
 export const deleteNote = (id: string) => instance.delete<Note>(`/notes/${id}`);
