@@ -6,8 +6,7 @@ import { useQuery } from '@tanstack/react-query';
 import { useParams } from 'next/navigation';
 
 const NoteDetails = () => {
-  const { id } = useParams();
-  console.log(id);
+  const { id } = useParams<{ id: string }>();
 
   const {
     data: note,
@@ -15,7 +14,7 @@ const NoteDetails = () => {
     error,
   } = useQuery({
     queryKey: ['note', id],
-    queryFn: () => fetchNoteById(id as string),
+    queryFn: () => fetchNoteById(id),
     refetchOnMount: false,
   });
 
